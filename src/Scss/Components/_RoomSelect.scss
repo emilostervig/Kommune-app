@@ -1,0 +1,46 @@
+.room-select{
+    &__form{
+        width: 100%;
+
+    }
+    &__form-widget{
+        margin-left: auto;
+        margin-right: auto;
+        width: 310px;
+        max-width: 100%;
+        padding: 50px;
+        margin-top: 80px;
+        background-color: $color-white;
+        border-radius: 3px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    }
+    &__join-room, 
+    &__create-room{
+        display: flex;
+        flex-direction: column;
+    }
+    &__input{
+        margin-bottom: 8px;
+
+    }
+    &__submit{
+        margin-bottom: 8px;
+        position: relative;
+    }
+    &__switch-room{
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+    }
+    &__button-loader{
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+
+    & .notice-message {
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,35 @@
+@mixin button{
+
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 3px;
+    padding: 10px 25px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    text-align: center;
+    border-width: 1px;
+    border-style:solid;
+    &--primary{
+        background-color: $color-red;
+        color: $color-white;
+        &:hover{
+            background-color: $color-red--active;
+        }
+    }
+    &--green{
+        background-color: $color-green;
+        border-color: $color-green;
+    }
+    &--ghost{
+        background-color: transparent;
+        border-color: $color-red;
+        color: $color-red;
+    }
+    &--small{
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+}

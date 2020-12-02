@@ -1,0 +1,101 @@
+.map-form{
+
+    &__check-list{
+        flex-grow: 1;
+        max-width: 400px;
+        box-sizing:border-box;
+        padding-left: 50px;
+    }
+    &__search{
+
+    }
+    &__search-input-wrap{
+        position: relative;
+        input[type="text"]{
+            padding: 10px 30px 10px 15px;
+        }
+    }
+    &__search-close{
+        position: absolute;
+        right: 8px;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        opacity: 0.3;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        &:hover {
+            opacity: 1;
+        }
+        &:before, &:after {
+            position: absolute;
+            left: 11px;
+            content: ' ';
+            height: 19px;
+            width: 2px;
+            background-color: $color-gray;
+        }
+        &:before {
+            transform: rotate(45deg);
+        }
+        &:after {
+            transform: rotate(-45deg);
+        }
+
+    }
+    &__search-input{
+        padding: 10px 30px 10px 15px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+    &__check-list-container{
+        height: 200px;
+        overflow: auto;
+        margin-top: -1px;
+        border-radius: 0px 0px 3px 3px;
+        border: 1px solid $color-gray--light;
+        border-top: none;
+        background-color: $color-white;
+    }
+
+    &__check-list{
+        text-align:left;
+    }
+    &__check-item{
+        --checkmark-color: #{$color-gray--ultralight};
+        input[type="checkbox"]{
+            opacity:0;
+            visibility: hidden;
+            display:none;
+        }
+        label{
+            display: flex;
+            align-item: center;
+            padding: 5px 10px;
+            cursor: pointer;
+
+            &::before{
+                content: "";
+                display: inline-block;
+                transform: rotate(45deg);
+                height: 13px;
+                width: 6px;
+                margin-left: 4px;
+                border-bottom: 3px solid var(--checkmark-color);
+                border-right: 3px solid var(--checkmark-color);
+            }
+        }
+        &.active{
+            background-color: $color-green;
+            --checkmark-color: #{$color-white};
+            color: $color-white;
+        }
+    }
+    &__check-item-name{
+        margin-left: 10px;
+    }
+    &__check-list-no-results{
+        padding: 5px 10px;
+    }
+}

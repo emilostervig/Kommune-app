@@ -1,18 +1,20 @@
 <template>
-  <div class="home">
-      <VueMap></VueMap>
+  <div class="edit">
+    <h1>edit</h1>
+    <VueMap v-bind:mapKey="$route.params.key"></VueMap>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import LeaderBoard from '../Components/LeaderBoard.vue';
 import VueMap from '../Components/VueMap.vue';
-import MapForm from '../Components/MapForm.vue';
 @Component({
   components: {
+    LeaderBoard,
     VueMap,
-    MapForm,
+    
   },
 })
-export default class Home extends Vue {}
+export default class Edit extends Vue {}
 </script>

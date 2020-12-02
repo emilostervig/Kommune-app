@@ -1,0 +1,21 @@
+$color-gray: #3a3a3a;
+$color-gray--light: #a3a3a3;
+$color-gray--ultralight: #d3d2d2;
+$color-white: #fff;
+$color-eggshell: #fffef8;
+$color-green: #9ad3bc;
+$color-sand: #f3eac2;
+$color-orange: #f5b461;
+$color-red: #ec524b;
+$color-red--active: darken(#ec524b, 10);
+$color-green--dark: #2c3e50;
+$color-text: $color-green--dark;
+
+$color-danger: darken(#ec524b, 20);
+$color-warning: #dcec4b;
+
+$body-font: "Montserrat", sans-serif;
+$body-background: $color-eggshell;
+
+$municipalityActive: $color-orange;
+$municipalityInactive: $color-sand;

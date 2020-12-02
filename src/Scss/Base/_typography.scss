@@ -1,0 +1,67 @@
+html{
+    background-color: $body-background;
+    font-family: $body-font;
+    line-height: 1.5em;
+    font-size: 15px;
+    color: #2c3e50;
+}
+p{
+    line-height: 1.5em;
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    font-size: 1rem;
+}
+
+p,button,span,blockquote, table{
+    font-size: 1rem;
+    font-family: $body-font;
+}
+h1,h2,h3,h4,h5{
+    margin-top: 0px;
+    margin-bottom: 20px;
+    line-height: 1.5em;
+}
+
+h1{
+    font-size: 40px;
+    font-weight: 600;
+    font-family: $body-font;
+}
+h2{
+    font-size: 32px;
+    font-weight: 600;
+}
+h3{
+    font-size: 20px;
+    font-weight: 600;
+}
+h4{
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.button{
+    @include button;
+}
+
+#app {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+.no-selection{
+    &::-moz-selection { /* Code for Firefox */
+        background: transparent !important;
+    }
+    
+    &::selection {
+        background: transparent !important;
+    }
+}

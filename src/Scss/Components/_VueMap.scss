@@ -1,0 +1,30 @@
+.vue-map{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    &__svg{
+        width: 900px;
+        max-width: 600px;
+        flex-shrink: 0;
+    }
+    &__municipality {
+        fill:$municipalityInactive;
+        stroke: $color-orange;
+        &:hover{
+            fill: $municipalityActive;
+        }
+        &--visited{
+            fill: $municipalityActive;
+        }
+        
+    }
+    &__outline {
+        fill: none;
+        stroke: $color-gray;
+    }
+
+}
+
+.edit-link-message{
+    margin-bottom: 50px;
+}
