@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    initialMapData: <MapDataObject[]>[],
     mapData: <MapDataObject[]>[],
     room: <string> "",
   },
@@ -16,10 +17,11 @@ export default new Vuex.Store({
     },
     setMapData(state, value: []){
       state.mapData = value;
+      state.initialMapData = value;
     },
     clearVisited(state){
       state.mapData = state.mapData.map(el => { 
-        return {...el, visited: false}
+        return {...el, visited: false, description: ""}
       })
     },
     setVisited(state, data){
@@ -51,6 +53,9 @@ export default new Vuex.Store({
   getters: {
     getMapData: state => {
       return state.mapData;
+    },
+    getCleanMapData: state => {
+      return state.initialMapData;
     },
     getVisitedMapData: state => {
       return state.mapData.filter(el => el.visited);

@@ -2,7 +2,7 @@
   <div id="app">
     <div class="app-container">
       <div id="nav">
-        <router-link to="/">Home</router-link> |
+        <router-link to="/">Ny</router-link> |
         <router-link to="/statistik">Statistik</router-link>
       </div>
       
@@ -10,11 +10,11 @@
         
         <div class="current-room-badge">
           <div class="current-room-badge__inside">
-            <p>Du er i rummet:</p> 
+            <p>Du er i gruppen:</p> 
             <p class="current-room__room-name">{{ getRoom() }}</p>
             <p>
               <span class="button button--primary button--small" v-on:click="leaveRoom()">
-              Forlad rum
+              Forlad gruppe
               </span>
             </p>
           </div>
@@ -92,8 +92,8 @@ export default class App extends Vue {
   leaveRoom(){
     this.$store.dispatch('setRoom', '');
     this.setRoomStorage('');
-    if(this.$route.name !== 'Home'){
-      this.$router.push({name: 'Home'});
+    if(this.$route.name !== 'New'){
+      this.$router.push({name: 'New'});
     }
   }
 }

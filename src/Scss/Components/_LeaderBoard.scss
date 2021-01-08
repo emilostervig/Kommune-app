@@ -53,3 +53,101 @@
         }
     }
 }
+
+.inspect-submission{
+    position: fixed;
+    background-color: rgba(0,0,0,0.4);
+
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+    
+    
+    &__box{
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        border-radius: 10px;
+        max-width: 90%;
+        width: 1600px;
+        background: $body-background;
+        box-sizing: border-box;
+        padding: 50px;
+        border: 2px solid $color-sand;
+        position: relative;
+    }
+    &__close{
+        position: absolute;
+        right: -20px;
+        top: -20px;
+        width: 32px;
+        height: 32px;
+        opacity: 1;
+        border-radius: 100%;
+        padding: 8px;
+        background-color: $color-orange;
+        color: $color-white;
+        cursor: pointer;
+        box-shadow: none;
+        border: 2px solid $color-orange;
+        transition: 100ms ease;
+        &:hover {
+            background-color: $color-sand;
+            border-color: $color-sand;
+
+        }
+        &:before, &:after {
+            content: ' ';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 20px;
+            margin-top: -9px;
+            margin-left: -1px;
+            width: 2px;
+            background-color: currentColor;
+        }
+        &:before {
+            transform: rotate(45deg);
+        }
+        &:after {
+            transform: rotate(-45deg);
+        }
+      
+    }
+}
+
+
+.user-data{
+    width: 400px;
+    padding-left: 80px;
+    &__name{
+        font-weight: 400;
+        strong{
+            font-weight: 600;
+        }
+    }
+
+    
+}
+
+.user-data-list{
+
+}
+
+.user-data-list-item{
+    padding-top: 1.5em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid $color-gray--ultralight;
+    &__municipality{
+        font-weight: 600;
+        margin-bottom: .5em;
+    }
+    &__description{
+        margin-bottom: 0px;
+    }
+}

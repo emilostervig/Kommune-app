@@ -14,5 +14,5 @@ import MapForm from '../Components/MapForm.vue';
     MapForm,
   },
 })
-export default class Home extends Vue {}
+export default class New extends Vue {}
 </script>

@@ -26,16 +26,49 @@
                         </td>
                         
                         <td>
-                            {{ countSubmission(item) }}
+                            <span class="leader-board__list-item__count">
+                                {{ countSubmission(item) }}
+                            </span>
+                            <span class="leader-board__list-item__show-entry" v-on:click="showSubmission(item)">
+                                Vis indtastning
+                            </span>
                         </td> 
                     </tr>
 
                 </table>
 
             </div>
-        </transition>   
+        </transition>
+        <transition name="fade-quick">   
+            <div v-if="showingSubmission && showSubmissionMap" class="inspect-submission" v-on:click="handleOverlayClick($event.target)" ref="submissionOverlay">
+                <div class="inspect-submission__box">
+                    <span class="inspect-submission__close" v-on:click="closeSubmission"></span>
+                    <div class="flex-row flex-row--jc-center">
+                        <SvgMap :mapData="showSubmissionMap">
+                        </SvgMap>
+
+                        <div class="user-data">
+                            <h3 class="user-data__name">
+                                Indtastning for <strong>{{ showSubmissionUser.name}}</strong>
+                            </h3>
+                            <div class="user-data_list" v-if="showSubmissionUser.entries.length">
+                                <div class="user-data-list-item" v-for="entry in this.submissionVisitedList()" :key="entry.ID">
+                                    <h4 class="user-data-list-item__municipality">
+                                        {{entry.displayName}}
+                                    </h4>
+                                    <p class="user-data-list-item__description">
+                                        {{entry.description}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </transition>
     </div>
-  
 </template>
 
 <script lang="ts">
@@ -43,10 +76,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import MapAPI from '../Store/MapApi';
 import MapSubmission from '../Models/MapSubmission.Model';
 import Loader from '../Components/Loader.vue';
+import SvgMap from '../Components/SvgMap.vue';
+import MapDataObject from '@/Models/MapDataObject.Model';
 
 @Component({
     components: {
         Loader,
+        SvgMap
     }
 })
 export default class Leaderboard extends Vue {
@@ -54,10 +90,21 @@ export default class Leaderboard extends Vue {
     private posts : MapSubmission[] = [];
     private orderBy : string = "count";
     private orderASC : boolean = false;
+    private showingSubmission : boolean = false;
+    private showSubmissionMap : MapDataObject[];
+    private showSubmissionUser : MapSubmission;
+
+    public $refs: {
+        submissionOverlay: HTMLElement
+    };
     mounted(){
         
         this.getPosts();
         
+    }
+
+    get mapData() : MapDataObject[] {
+        return this.$store.getters.getCleanMapData;
     }
 
     getPosts() : void {
@@ -104,6 +151,44 @@ export default class Leaderboard extends Vue {
             return [...posts].reverse();
         }
         return [...posts];
+    }
+
+    handleOverlayClick(target : Node) {
+        if(target == null){
+            return;
+        }
+        if(this.$refs.submissionOverlay.isSameNode(target)){
+            this.closeSubmission();
+        };
+    }
+    submissionVisitedList(){
+        return this.showSubmissionMap.filter(el => el.visited);
+    }
+    closeSubmission() : void {
+        this.showSubmissionMap = [];
+        this.showingSubmission = false;
+        return;
+    }
+
+    
+    showSubmission(userEntryData : MapSubmission) {
+        //this.showSubmissionMap = userEntryData
+        this.showingSubmission = true;
+        let mapData = [...this.mapData];
+        if (userEntryData.entries.length){
+
+            mapData = mapData.map(mapDataEntry => {
+                let userDataEl = userEntryData.entries.find(el => el.municipality == mapDataEntry.name);
+                if(userDataEl){
+                    return {...mapDataEntry, ...userDataEl}
+                }
+                return {...mapDataEntry}
+            })
+
+        }
+        this.showSubmissionMap = mapData;
+        this.showSubmissionUser = userEntryData;
+        
     }
 
 }

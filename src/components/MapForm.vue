@@ -102,7 +102,6 @@ export default class MapForm extends Vue {
     }
 
     savePost($event: Event) {
-        $event.preventDefault();
         this.$emit('submitted', {name: this.nameField});
     }
 

@@ -4,12 +4,12 @@
         <p>for at redigere din indtastning skal du bruge følgende link: <a :href="getEditLink()">{{getEditLink()}}</a></p>
     </div>
     <div class="vue-map" v-if="mapDataLoaded">
-        <form class="map-form">
+        <form class="map-form" ref="formRef" @submit.prevent="onFormSubmit($event)">
             <div class=" flex-row flex-row--ai-top flex-row--jc-center">
                 <SvgMap :mapData="mapData" v-on:clicked="onMunicipalityClick($event)"></SvgMap>
-                <MapForm v-on:submitted="onFormSubmit($event)" v-on:clear="clearAll()" v-model="name" :name="name"></MapForm>
+                <MapForm v-on:submitted="onNameSubmitted($event)" v-on:clear="clearAll()" v-model="name" :name="name"></MapForm>
             </div>
-            <DescriptionList>
+            <DescriptionList v-if="visitedMunicipalities().length">
                 
             </DescriptionList>
         </form>
@@ -35,6 +35,9 @@ interface MapFormSubmit {
   },
 })
 export default class VueMap extends Vue {
+    public $refs: {
+        formRef: HTMLFormElement
+    };
     @Prop() private mapKey!: string;
 
     private showToolTip : Boolean = false;
@@ -47,12 +50,17 @@ export default class VueMap extends Vue {
         if(this.mapKey){
             this.setupEdit();
         } else{
+            this.setupNew();
             this.mapDataLoaded = true;
         }
         
     }
     get mapData() : MapDataObject[] {
         return this.$store.getters.getMapData;
+    }
+
+    setupNew() {
+        this.clearAll();
     }
     setupEdit(){
         this.isEdit = true;
@@ -113,9 +121,32 @@ export default class VueMap extends Vue {
         this.$store.dispatch('clearAllVisitied');
     }
 
+    onNameSubmitted(formData : MapFormSubmit) {
+        this.name = formData.name;
+    }
 
-    onFormSubmit(formData : MapFormSubmit) : void {
-        let name = formData.name;
+    saveLocal(key: string, data: any) {
+        let jsonData = JSON.stringify(data);
+        localStorage.setItem(key, jsonData);
+    }
+    getLocal(key: string){
+        let storageData = localStorage.getItem(key);
+        if(storageData == null){
+            return false;
+        }
+        return JSON.parse(storageData);
+    }
+    saveLocalEditKey(savekey: string){
+        let storageData = this.getLocal('savekeys');
+        if(!storageData){
+            storageData = [];
+        }
+        storageData.push(savekey);
+        this.saveLocal('savekeys',storageData);
+    }
+
+    onFormSubmit($event: Event) : void {
+        let name = this.name;
         let data = this.mapData.filter(el => el.visited);
         let key = this.mapKey;
         let entryArray : {[k: string]: any}[] = [];
@@ -140,6 +171,7 @@ export default class VueMap extends Vue {
             MapAPI.savePost(name, postObj, room).then( (response: any) => {
                 if("success" in response && "key" in response){
                     this.$emit('savepost', response.key);
+                    this.saveLocalEditKey(response.key);
                     this.$router.push({ name: 'Edit', params: { key: response.key }});
                 }
             })
