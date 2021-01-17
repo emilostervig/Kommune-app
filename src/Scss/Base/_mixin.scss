@@ -18,6 +18,9 @@
             background-color: $color-red--active;
         }
     }
+    &--round{
+        border-radius: 6px;
+    }
     &--green{
         background-color: $color-green;
         border-color: $color-green;
@@ -29,6 +32,7 @@
     }
     &--small{
         font-size: 13px;
+        min-width: 60px;
         padding: 6px 10px;
     }
 

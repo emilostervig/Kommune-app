@@ -12,40 +12,42 @@
             <div class="room-select__form-widget">
                 <transition name="fade-quick" mode="out-in">
                     <form class="room-select__form room-select__form--enter" v-on:submit="enterRoom($event)" v-if="!showCreateRoom" key="join-room-form">
-                            <div class="room-select__join-room" >
-                                <input class="room-select__input" required type="text" name="create_roomtext" v-model="roomText" placeholder="indtast gruppe navn..." v-on:input="onFieldInput()" key="join-room-name">
-                                <button type="submit" class="room-select__submit button--primary">
-                                    Vælg gruppe
-                                    <transition name="fade-quick">
-                                        <Loader size="20px" class="room-select__button-loader" v-if="isLoading">
-                                        </Loader>
-                                    </transition>
-                                </button>
-                            </div>
-                            <div class="room-select__or-message text-center">
-                                Eller
-                            </div>
-                            <div class="room-select__switch-room  button button--ghost" v-on:click="changeForm">
-                                Opret en ny gruppe
-                            </div>
+                        <h2 class="text-center">Deltag i gruppe</h2>
+                        <div class="room-select__join-room" >
+                            <input class="room-select__input" required type="text" name="create_roomtext" v-model="roomText" placeholder="indtast gruppe navn..." v-on:input="onFieldInput()" key="join-room-name">
+                            <button type="submit" class="room-select__submit button--primary">
+                                Vælg gruppe
+                                <transition name="fade-quick">
+                                    <Loader size="20px" class="room-select__button-loader" v-if="isLoading">
+                                    </Loader>
+                                </transition>
+                            </button>
+                        </div>
+                        <div class="room-select__or-message text-center">
+                            Eller
+                        </div>
+                        <div class="room-select__switch-room  button button--ghost" v-on:click="changeForm">
+                            Opret en ny gruppe
+                        </div>
                     </form>
                     <form class="room-select__form room-select__form--create" v-on:submit="createRoom($event)" v-if="showCreateRoom" key="create-room-form">
-                            <div class="room-select__create-room" >
-                                <input class="room-select__input" required type="text" name="create_roomtext" v-model="createRoomText" placeholder="indtast gruppe navn..." v-on:input="onFieldInput()" key="create-room-name"> 
-                                <button type="submit" class="room-select__submit button--primary">
-                                    Opret gruppe
-                                    <transition name="fade-quick">
-                                        <Loader size="20px" class="room-select__button-loader" v-if="isLoading">
-                                        </Loader>
-                                    </transition>
-                                </button>
-                            </div>
-                            <div class="room-select__or-message text-center">
-                                Eller
-                            </div>
-                            <div class="room-select__switch-room button button--ghost" v-on:click="changeForm()">
-                                Deltag i eksisterende gruppe
-                            </div>
+                        <h2 class="text-center">Opret ny gruppe</h2>
+                        <div class="room-select__create-room" >
+                            <input class="room-select__input" required type="text" name="create_roomtext" v-model="createRoomText" placeholder="indtast gruppe navn..." v-on:input="onFieldInput()" key="create-room-name"> 
+                            <button type="submit" class="room-select__submit button--primary">
+                                Opret gruppe
+                                <transition name="fade-quick">
+                                    <Loader size="20px" class="room-select__button-loader" v-if="isLoading">
+                                    </Loader>
+                                </transition>
+                            </button>
+                        </div>
+                        <div class="room-select__or-message text-center">
+                            Eller
+                        </div>
+                        <div class="room-select__switch-room button button--ghost" v-on:click="changeForm()">
+                            Deltag i eksisterende gruppe
+                        </div>
                     </form>
                 </transition>
                 <transition name="fade">

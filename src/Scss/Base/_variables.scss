@@ -10,6 +10,10 @@ $color-red: #ec524b;
 $color-red--active: darken(#ec524b, 10);
 $color-green--dark: #2c3e50;
 $color-text: $color-green--dark;
+$color-gold: #ffd700;
+$color-silver: #d1d7da;
+$color-bronze: #df7e08;
+
 
 $color-danger: darken(#ec524b, 20);
 $color-warning: #dcec4b;
@@ -19,3 +23,5 @@ $body-background: $color-eggshell;
 
 $municipalityActive: $color-orange;
 $municipalityInactive: $color-sand;
+
+$container-width: 1200px;

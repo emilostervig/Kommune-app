@@ -23,19 +23,21 @@ class MapAPIHandler {
         }
         url += '&room='+room;
         return axios.get<MapSubmission[]>(url).then((res : any) => {
-            if('success' in res.data && res.data.success == false){
+            console.log(res)
+            if('success' in res.data && res.data.success == false || res.data.length == 0){
                 return [];
             }
             let dataArray : MapSubmission[] = res.data.map( (el: any) => {
-                    return {
-                        name: el.name,
-                        ID: el.id,
-                        entries: el.entries,
-                        date: el.date
-                    }
-                })
-                return dataArray;
-        })
+                return {
+                    name: el.name,
+                    ID: el.id,
+                    entries: el.entries,
+                    date: el.date
+                }
+            })
+            return dataArray;
+        });
+        
     }
 
     public checkRoom(room : string) : Promise<boolean>{

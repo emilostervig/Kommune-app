@@ -1,5 +1,12 @@
 <template>
   <div id="app">
+
+    <div class="testmode-ribbon ribbon" v-if="testmode">
+      <span class="ribbon__inner">
+        TEST MODE
+      </span>
+    </div>
+
     <div class="app-container">
       <div id="nav">
         <router-link to="/">Ny</router-link> |
@@ -51,6 +58,7 @@ declare global {
 })
 export default class App extends Vue {
 
+  private testmode: boolean = true;
   mounted(){
     let mapData = [];
     for (const key in window.mapData) {
@@ -70,6 +78,8 @@ export default class App extends Vue {
     this.getRoomFromStorage();
     this.$store.dispatch("setInitialMapData", mapData);
   }
+
+
   setRoomStorage(roomName: string){
     window.localStorage.setItem('roomcode', roomName);
   }
@@ -81,6 +91,7 @@ export default class App extends Vue {
       this.$store.dispatch('setRoom', room);
     }
   }
+
   getRoom(){
     return this.$store.getters.getRoom;
   }

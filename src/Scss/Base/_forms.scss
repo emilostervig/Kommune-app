@@ -27,7 +27,9 @@ input[type="submit"], input.submit{
     border-radius: 3px;
     border-left-width: 8px;
     border-left-style: solid;
+    margin-bottom: 2em;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    box-sizing: border-box;
     & > :last-child{
         margin-bottom: 0;
     }
@@ -47,9 +49,25 @@ input[type="submit"], input.submit{
         border-color: darken($color-green--dark, 20);
     }
     &--success{
-        color: #2c3e50;
+        color: darken($color-green, 70);
         background-color: $color-green;
         border-color: darken($color-green, 20);
+    }
+    &--fixed{
+        position: fixed;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: $container-width;
+        max-width: 90%;
+
+        &--bottom{
+            top: unset;
+            bottom: 100px;
+        }
+        &--top {
+            top: 100px;
+        }
     }
 }
 

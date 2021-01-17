@@ -7,7 +7,15 @@
         <form class="map-form" ref="formRef" @submit.prevent="onFormSubmit($event)">
             <div class=" flex-row flex-row--ai-top flex-row--jc-center">
                 <SvgMap :mapData="mapData" v-on:clicked="onMunicipalityClick($event)"></SvgMap>
-                <MapForm v-on:submitted="onNameSubmitted($event)" v-on:clear="clearAll()" v-model="name" :name="name"></MapForm>
+                <MapForm 
+                    v-on:submitted="onNameSubmitted($event)" 
+                    v-on:clear="clearAll()" 
+                    v-model="name" 
+                    :name="name"
+                    :success-messages="successMessages"
+                    :error-messages="errorMessages">
+
+                </MapForm>
             </div>
             <DescriptionList v-if="visitedMunicipalities().length">
                 
@@ -45,6 +53,13 @@ export default class VueMap extends Vue {
     private queryString : string = "";
     private name : string = "";
     private isEdit : boolean = false;
+
+    private successMessages: string[] = [];
+    private errorMessages: string[] = [];
+
+    private successTimeout: number;
+    private errorTimeout: number;
+
     mounted(){
         
         if(this.mapKey){
@@ -64,6 +79,10 @@ export default class VueMap extends Vue {
     }
     setupEdit(){
         this.isEdit = true;
+        if(this.$route.query.firstSave){
+            this.promptSaveNotice();
+            this.$router.push({ query: {} })
+        }
         MapAPI.getPostByKey(this.mapKey).then( ( el : any ) => {
             if(typeof el == "object" && "post" in el){
                 this.name = el.post.name;
@@ -84,6 +103,27 @@ export default class VueMap extends Vue {
             this.mapDataLoaded = true;
         })
     };
+
+    promptSaveNotice(): void {
+        
+        clearTimeout(this.successTimeout);
+        this.successMessages = [];
+        this.successMessages.push( "Din indtastning blev gemt" );
+        this.successTimeout = setTimeout( () => {
+            this.successMessages = [];
+        }, 3000);
+    }
+
+    promptErrorNotice(): void {
+        clearTimeout(this.errorTimeout);
+        this.errorMessages = [];
+        this.errorMessages.push( "Din indtastning blev gemt" );
+        this.successTimeout = setTimeout( () => {
+            this.errorMessages = [];
+        }, 3000);
+    }
+
+
     getEditLink(){
         let pathWORes   = location.pathname.substring(0, location.pathname.lastIndexOf("/")+1);
         let protoWDom   = location.href.substr(0, location.href.indexOf("/", 8));
@@ -161,7 +201,7 @@ export default class VueMap extends Vue {
         
         if(this.isEdit){
             MapAPI.updatePost(key, postObj, name).then(response => {
-                console.log(response)
+                this.promptSaveNotice();
             })
         } else{
             let room = this.$store.getters.getRoom;
@@ -172,7 +212,12 @@ export default class VueMap extends Vue {
                 if("success" in response && "key" in response){
                     this.$emit('savepost', response.key);
                     this.saveLocalEditKey(response.key);
-                    this.$router.push({ name: 'Edit', params: { key: response.key }});
+                    this.$router.push({ 
+                        name: 'Edit', 
+                        params: { key: response.key }, 
+                        query: { firstSave: "true" }
+                    });
+
                 }
             })
         }

@@ -29,7 +29,7 @@
                 Du har sovet i {{ countMunicipalities() }} {{ pluralizer(countMunicipalities(), 'kommune', 'kommuner') }}
             </h3>
             <button class="button button--primary" v-on:click="clearAll()">
-                Ryd valgte
+                Ryd alle kommuner
             </button>
             <div v-if="false" class="map-form__resume-list">
                 <div class="map-form__resume-list-item" v-for="muni in visitedMunicipalities()" v-bind:key="muni.name">
@@ -37,15 +37,32 @@
                 </div>
             </div>
         </div>
-        <div class="form-group">
+        <div class="map-form__name form-group">
             <label for="name_input" class="form-group__label">
-                Navn:
+                Dit navn:
             </label>
             <input id="name_input" type="text" required v-model="nameField" class="form-group__input" v-on:input="$emit('input', nameField)">    
         </div>
-        <button type="submit" class="button button--primary" v-on:click="savePost($event)">
+        <button type="submit" class="map-form__submit button button--primary" v-on:click="savePost($event)">
             GEM
         </button>
+        
+        <div  class="map-form__succes-messages">
+            <transition-group name="fade-quick">
+                <div v-for="(msg, index) in successMessages" v-bind:key="'succes-message_'+index" class="notice-message notice-message--success">
+                    {{msg}}
+                </div>
+            </transition-group>
+        </div>
+
+        <div v-if="errorMessages && errorMessages.length" class="map-form__error-messages">
+            <transition-group name="fade" mode="in-out">
+                <div v-for="(msg, index) in errorMessages" v-bind:key="'error-message_'+index" class="notice-message notice-message--error">
+                    {{msg}}
+                </div>
+            </transition-group>
+        </div>
+
     </div>
 </template>
 
@@ -55,9 +72,13 @@ import MapAPI from '../Store/MapApi';
 import MapDataObject from '../Models/MapDataObject.Model';
 import Pluralizer from '../Helpers/Pluralizer';
 
+
+
 @Component
 export default class MapForm extends Vue {
     @Prop() private name!: string;
+    @Prop() public successMessages: string[];
+    @Prop() public errorMessages: string[];
 
     private queryString : string = "";
     private nameField : string = this.name;
