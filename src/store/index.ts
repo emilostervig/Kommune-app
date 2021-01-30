@@ -68,6 +68,12 @@ export default new Vuex.Store({
     getRoom: state => {
       return state.room;
     },
+    getRoomLink: state => {
+      let pathWORes   = location.pathname.substring(0, location.pathname.lastIndexOf("/")+1);
+      let protoWDom   = location.href.substr(0, location.href.indexOf("/", 8));
+      let urlBase     = protoWDom + pathWORes;
+      return protoWDom + '/join/'+state.room;
+    }
   },
   modules: {
   }

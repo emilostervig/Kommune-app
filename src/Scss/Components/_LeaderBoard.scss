@@ -119,6 +119,8 @@
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         border-radius: 10px;
         max-width: 90%;
+        max-height: 90%;
+        height: 900px;
         width: 1600px;
         background: $body-background;
         box-sizing: border-box;
@@ -165,24 +167,27 @@
         }
       
     }
+    &__row{
+        max-height: 100%;
+    }
 }
 
 
 .user-data{
     width: 400px;
     padding-left: 80px;
+    flex-grow: 1;
     &__name{
         font-weight: 400;
         strong{
             font-weight: 600;
         }
     }
-
-    
 }
 
 .user-data-list{
-
+    height: 100%;
+    overflow: auto;
 }
 
 .user-data-list-item{

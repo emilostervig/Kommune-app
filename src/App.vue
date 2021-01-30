@@ -8,11 +8,11 @@
     </div>
 
     <div class="app-container">
-      <div id="nav">
-        <router-link to="/">Ny</router-link> |
-        <router-link to="/statistik">Statistik</router-link>
+      <div id="nav" v-if="getRoom()">
+        <router-link to="/">Ny</router-link>
+        <router-link v-if="hasSessionKey()" :to="'/edit/' + getSessionKey()">Rediger indtastning</router-link>
+        <router-link to="/statistik">Scoreboard</router-link>
       </div>
-      
       <div class="router-wrapper" v-if="getRoom()">
         
         <div class="current-room-badge">
@@ -24,6 +24,14 @@
               Forlad gruppe
               </span>
             </p>
+            <p>
+              <span class="button button--ghost button--small" v-on:click="copyQuickjoinLink()">
+                Kopier invitation link
+                <transition name="fade-quick" mode="in-out">
+                  <span class="button__icon" v-if="didCopyRoomLink">✓</span>
+                </transition>
+              </span>
+            </p>
           </div>
         </div>
 
@@ -32,9 +40,8 @@
         </transition>
       
       </div>
-      
       <transition name="fade-quick" mode="in-out">
-        <RoomSelect v-on:pickroom="pickRoom($event)" v-on:createroom="createRoom($event)" v-if="!getRoom()"></RoomSelect>
+        <RoomSelect v-on:pickroom="pickRoom($event)" v-on:createroom="createRoom($event)" v-if="!getRoom()" v-bind:quickJoin="$route.params.quickJoinRoom"></RoomSelect>
       </transition>
     </div>
   </div>
@@ -58,7 +65,8 @@ declare global {
 })
 export default class App extends Vue {
 
-  private testmode: boolean = true;
+  private testmode: boolean = false;
+  private didCopyRoomLink : boolean = false;
   mounted(){
     let mapData = [];
     for (const key in window.mapData) {
@@ -107,6 +115,28 @@ export default class App extends Vue {
       this.$router.push({name: 'New'});
     }
   }
+
+  hasSessionKey() : boolean {
+    let storageData = window.sessionStorage.getItem('last_save');
+    return (storageData != null && storageData.length > 0);
+  }
+
+  getSessionKey() : string {
+    let storageData = window.sessionStorage.getItem('last_save');
+    return storageData || "";
+  }
+
+  copyQuickjoinLink() {
+    let copyText = this.$store.getters.getRoomLink;
+    const el = document.createElement('textarea');
+    el.value = copyText;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    this.didCopyRoomLink = true;
+  }
+
 }
 </script>
 <style lang="scss">

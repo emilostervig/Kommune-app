@@ -53,7 +53,7 @@
             <div v-if="showingSubmission && showSubmissionMap" class="inspect-submission" v-on:click="handleOverlayClick($event.target)" ref="submissionOverlay">
                 <div class="inspect-submission__box">
                     <span class="inspect-submission__close" v-on:click="closeSubmission"></span>
-                    <div class="flex-row flex-row--jc-center">
+                    <div class="flex-row flex-row--jc-center inspect-submission__row">
                         <SvgMap :mapData="showSubmissionMap">
                         </SvgMap>
 
@@ -61,7 +61,7 @@
                             <h3 class="user-data__name">
                                 Indtastning for <strong>{{ showSubmissionUser.name}}</strong>
                             </h3>
-                            <div class="user-data_list" v-if="showSubmissionUser.entries.length">
+                            <div class="user-data-list" v-if="showSubmissionUser.entries.length">
                                 <div class="user-data-list-item" v-for="entry in this.submissionVisitedList()" :key="entry.ID">
                                     <h4 class="user-data-list-item__municipality">
                                         {{entry.displayName}}
@@ -218,7 +218,7 @@ export default class Leaderboard extends Vue {
             })
 
         }
-        this.showSubmissionMap = mapData;
+        this.showSubmissionMap = [...mapData];
         this.showSubmissionUser = userEntryData;
         
     }

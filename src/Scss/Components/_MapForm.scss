@@ -3,10 +3,15 @@
     &__check-list{
         flex-grow: 1;
         max-width: 400px;
+        min-width: 340px;
         box-sizing:border-box;
         padding-left: 50px;
     }
     &__search{
+
+    }
+
+    &__row{
 
     }
     &__search-input-wrap{
@@ -71,7 +76,7 @@
         }
         label{
             display: flex;
-            align-item: center;
+            align-items: center;
             padding: 5px 10px;
             cursor: pointer;
 

@@ -80,10 +80,27 @@ export default class RoomSelect extends Vue {
     private errorMessage : string = "";
     private showError : boolean = false;
     private isLoading : boolean = false;
-    mounted(){
-        
+    
+
+    @Prop({default : ''}) 
+    quickJoin : string;
+
+    mounted(){ 
+        this.performQuickJoin();
+    }
+
+    updated(){
+        this.performQuickJoin();
     }
     
+    performQuickJoin(){
+        if(this.quickJoin && this.quickJoin != '' && this.roomText != this.quickJoin){
+            this.roomText = this.quickJoin;
+            this.enterRoom(new Event('submit'));
+            this.$router.push({ name: 'New' })
+        }
+    }
+
     changeForm(){
         this.showError = false;
         this.showCreateRoom = !this.showCreateRoom;

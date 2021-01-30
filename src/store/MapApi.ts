@@ -23,7 +23,6 @@ class MapAPIHandler {
         }
         url += '&room='+room;
         return axios.get<MapSubmission[]>(url).then((res : any) => {
-            console.log(res)
             if('success' in res.data && res.data.success == false || res.data.length == 0){
                 return [];
             }

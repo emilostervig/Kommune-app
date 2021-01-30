@@ -1,11 +1,30 @@
 <template>
 <div>
     <div class="notice-message notice-message--info edit-link-message" v-if="mapKey">
-        <p>for at redigere din indtastning skal du bruge følgende link: <a :href="getEditLink()">{{getEditLink()}}</a></p>
+        <h4>Dit personlige link</h4>
+        <p>For at redigere din indtastning skal du bruge følgende link: 
+        <br>
+        <br>
+        <a :href="getEditLink()">{{getEditLink()}}</a> 
+        <br>
+        <br>
+        <a class="button button--primary button--small button--round" @click="copyEditLink()">
+            Kopier link 
+            <transition name="fade-quick" mode="in-out">
+            <span class="button__icon" v-if="didCopy">✓</span>
+            </transition>
+        </a>
+        
+        <br>
+        <br>
+        Efter du har lukket din browser vil du kun kunne redigere din indtastning ved at bruge linket
+
+        </p>
+
     </div>
     <div class="vue-map" v-if="mapDataLoaded">
         <form class="map-form" ref="formRef" @submit.prevent="onFormSubmit($event)">
-            <div class=" flex-row flex-row--ai-top flex-row--jc-center">
+            <div class="flex-row flex-row--ai-top flex-row--jc-center flex-row--wrap map-form__row">
                 <SvgMap :mapData="mapData" v-on:clicked="onMunicipalityClick($event)"></SvgMap>
                 <MapForm 
                     v-on:submitted="onNameSubmitted($event)" 
@@ -53,6 +72,7 @@ export default class VueMap extends Vue {
     private queryString : string = "";
     private name : string = "";
     private isEdit : boolean = false;
+    private didCopy : boolean = false;
 
     private successMessages: string[] = [];
     private errorMessages: string[] = [];
@@ -128,8 +148,21 @@ export default class VueMap extends Vue {
         let pathWORes   = location.pathname.substring(0, location.pathname.lastIndexOf("/")+1);
         let protoWDom   = location.href.substr(0, location.href.indexOf("/", 8));
         let urlBase     = protoWDom + pathWORes;
-        return urlBase + '#/edit/'+this.mapKey;
+        return protoWDom + '/edit/'+this.mapKey;
     }
+
+    copyEditLink() {
+        let copyText = this.getEditLink();
+        const el = document.createElement('textarea');
+        el.value = copyText;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        this.didCopy = true;
+
+    }
+
     clearSearch(){
         this.queryString = "";
     }
@@ -176,6 +209,9 @@ export default class VueMap extends Vue {
         }
         return JSON.parse(storageData);
     }
+    saveSessionEditKey(savekey: string){
+        window.sessionStorage.setItem('last_save', savekey);
+    }
     saveLocalEditKey(savekey: string){
         let storageData = this.getLocal('savekeys');
         if(!storageData){
@@ -212,6 +248,7 @@ export default class VueMap extends Vue {
                 if("success" in response && "key" in response){
                     this.$emit('savepost', response.key);
                     this.saveLocalEditKey(response.key);
+                    this.saveSessionEditKey(response.key);
                     this.$router.push({ 
                         name: 'Edit', 
                         params: { key: response.key }, 
