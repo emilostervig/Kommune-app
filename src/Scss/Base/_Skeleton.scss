@@ -37,10 +37,18 @@
 .current-room-badge{
   background-color: $color-white;
   position: fixed;
-  left: 10px;
-  top: 10px;
   padding: 10px;
+  z-index: 999;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  bottom: 10px;
+  left: 10px;
+  right: auto;
+  @media screen and (min-width: 768px){
+    left: 10px;
+    top: 10px;
+    bottom: unset;
+  }
+
   &__room-name{
     font-weight: 700;
   }

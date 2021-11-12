@@ -52,27 +52,28 @@
         <transition name="fade-quick">   
             <div v-if="showingSubmission && showSubmissionMap" class="inspect-submission" v-on:click="handleOverlayClick($event.target)" ref="submissionOverlay">
                 <div class="inspect-submission__box">
-                    <span class="inspect-submission__close" v-on:click="closeSubmission"></span>
-                    <div class="flex-row flex-row--jc-center inspect-submission__row">
-                        <SvgMap :mapData="showSubmissionMap">
-                        </SvgMap>
+                    <div class="inspect-submission__overflow">
+                      <span class="inspect-submission__close" v-on:click="closeSubmission"></span>
+                      <div class="flex-row flex-row--jc-center flex-row--wrap inspect-submission__row">
+                          <SvgMap :mapData="showSubmissionMap">
+                          </SvgMap>
 
-                        <div class="user-data">
-                            <h3 class="user-data__name">
-                                Indtastning for <strong>{{ showSubmissionUser.name}}</strong>
-                            </h3>
-                            <div class="user-data-list" v-if="showSubmissionUser.entries.length">
-                                <div class="user-data-list-item" v-for="entry in this.submissionVisitedList()" :key="entry.ID">
-                                    <h4 class="user-data-list-item__municipality">
-                                        {{entry.displayName}}
-                                    </h4>
-                                    <p class="user-data-list-item__description">
-                                        {{entry.description}}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
+                          <div class="user-data">
+                              <h3 class="user-data__name">
+                                  Indtastning for <strong>{{ showSubmissionUser.name}}</strong>
+                              </h3>
+                              <div class="user-data-list" v-if="showSubmissionUser.entries.length">
+                                  <div class="user-data-list-item" v-for="entry in this.submissionVisitedList()" :key="entry.ID">
+                                      <h4 class="user-data-list-item__municipality">
+                                          {{entry.displayName}}
+                                      </h4>
+                                      <p class="user-data-list-item__description">
+                                          {{entry.description}}
+                                      </p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                     </div>
                 </div>
 

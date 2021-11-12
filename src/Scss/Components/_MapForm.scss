@@ -2,10 +2,15 @@
 
     &__check-list{
         flex-grow: 1;
-        max-width: 400px;
-        min-width: 340px;
         box-sizing:border-box;
-        padding-left: 50px;
+        text-align:left;
+        width: 100%;
+        padding-left: 0px;
+        @media screen and (min-width: 992px){
+          max-width: 400px;
+          width: auto;
+          padding-left: 50px;
+        }
     }
     &__search{
 
@@ -57,6 +62,7 @@
     &__check-list-container{
         height: 200px;
         overflow: auto;
+        margin-bottom: 1em;
         margin-top: -1px;
         border-radius: 0px 0px 3px 3px;
         border: 1px solid $color-gray--light;
@@ -64,9 +70,7 @@
         background-color: $color-white;
     }
 
-    &__check-list{
-        text-align:left;
-    }
+   
     &__check-item{
         --checkmark-color: #{$color-gray--ultralight};
         input[type="checkbox"]{
